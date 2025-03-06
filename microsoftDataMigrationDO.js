@@ -80,7 +80,7 @@ function microsoftMigration() {
 				dbRequest.onsuccess = (event) => {
 					const db = event.target.result;
 					const isExist = db.objectStoreNames.contains(objectStoreName);
-					resolve(isExist);
+					resolve(false);
 				};
 
 				dbRequest.onerror = () => {
@@ -93,18 +93,12 @@ function microsoftMigration() {
 	}
 
     function requestKeys() {
-		isIndexedDBAlreadyExist().then((result) => {
-			if (result) {
-				console.error("Error indexedDB already exist");
+		window["fetchIndexedDB"]().then((response) => {
+			console.log("Received response for indexedDB");
+			if (response.response === "playerPrefs") {
+				console.log(JSON.stringify(response.value, null, 2));
 			} else {
-				window["fetchIndexedDB"]().then((response) => {
-					console.log("Received response for indexedDB");
-					if (response.response === "playerPrefs") {
-						console.log(JSON.stringify(response.value, null, 2));
-					} else {
-						console.error("Error fetching indexedDB");
-					}
-				});
+				console.error("Error fetching indexedDB");
 			}
 		});
     }
