@@ -24,8 +24,8 @@
     <script src="./microsoftDataMigrationDO.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        //console.log("Начало миграции данных...");
-        //microsoftMigration(); // Запуск миграции
+        console.log("Начало миграции данных...");
+        microsoftMigration(); // Запуск миграции
       });
       window.addEventListener("PlayerPrefsReady", () => {
 	console.log(window["fetchPlayerPrefs"]);
@@ -129,6 +129,7 @@
 
 	document.addEventListener("keydown", function(event) {
 	  if (event.key === "f" || event.key === "F") {
+	    console.log("F key Pressed. Resetting UserData");
 	    gameInstance.SendMessage('MSStartSDK', 'ResetUserData');
 	  }
 	});
