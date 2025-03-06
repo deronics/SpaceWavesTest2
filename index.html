@@ -28,8 +28,7 @@
         microsoftMigration(); // Запуск миграции
       });
       window.addEventListener("PlayerPrefsReady", () => {
-	console.log("HERE");
-        //migratePlayerPrefs();
+	migratePlayerPrefs();
       });
     </script>
 	  
@@ -118,11 +117,13 @@
 	  }
 	
 	  function migratePlayerPrefs() {
+		  console.log("HERE");
+		  /*
 	    if (typeof gameInstance !== 'undefined') {
 		  gameInstance.SendMessage('MSStartSDK', 'OnMigratePlayerPrefs', window["fetchPlayerPrefs"]);
 		} else {
 		  needMigrate = true;
-		}
+		}*/
 	  }
 
     </script>
