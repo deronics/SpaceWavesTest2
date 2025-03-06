@@ -28,6 +28,7 @@
         microsoftMigration(); // Запуск миграции
       });
       window.addEventListener("PlayerPrefsReady", () => {
+	console.log(window["fetchPlayerPrefs"]);
 	migratePlayerPrefs();
       });
     </script>
