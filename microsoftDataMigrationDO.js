@@ -66,41 +66,42 @@ function microsoftMigration() {
         }
     }
 	
-	function isIndexedDBAlreadyExist() {
+	async function isIndexedDBAlreadyExist() {
 		try {
 			const dbRequest = indexedDB.open(IDBFS);
-			dbRequest.onsuccess = (event) => {
-				const db = event.target.result;
-				return db.objectStoreNames.contains(objectStoreName);
-			};
+			
+			return await new Promise((resolve, reject) => {
+				dbRequest.onsuccess = (event) => {
+					const db = event.target.result;
+					const isExist = db.objectStoreNames.contains(objectStoreName);
+					resolve(isExist);
+				};
 
-			dbRequest.onerror = () => {
-				return false;
-			};
+				dbRequest.onerror = () => {
+					resolve(false); 
+				};
+			});
 		} catch (err) {
 			return false;
 		}
 	}
 
     function requestKeys() {
-	    	const isIndexedDBExist = isIndexedDBAlreadyExist();
-	    	console.log(isIndexedDBExist);
-	    	console.log(!isIndexedDBExist);
-	    	console.log(isIndexedDBAlreadyExist());
-	    	console.log(!isIndexedDBAlreadyExist());
-	    
-		if (!isIndexedDBAlreadyExist()) {
-			window["fetchIndexedDB"]().then((response) => {
-				console.log("Received response for indexedDB");
-				if (response.response === "playerPrefs") {
-					console.log(JSON.stringify(response.value, null, 2));
-				} else {
-					console.error("Error fetching indexedDB");
-				}
-			});
-		} else {
-			console.error("Error indexedDB already exist");
-		}
+		isIndexedDBAlreadyExist().then((result) => {
+			console.log(result + " " + !result);
+			if (result) {
+				console.error("Error indexedDB already exist");
+			} else {
+				window["fetchIndexedDB"]().then((response) => {
+					console.log("Received response for indexedDB");
+					if (response.response === "playerPrefs") {
+						console.log(JSON.stringify(response.value, null, 2));
+					} else {
+						console.error("Error fetching indexedDB");
+					}
+				});
+			}
+		});
     }
 
     function setUpIFrame() {
