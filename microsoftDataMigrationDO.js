@@ -80,7 +80,7 @@ function microsoftMigration() {
 				dbRequest.onsuccess = (event) => {
 					const db = event.target.result;
 					const isExist = db.objectStoreNames.contains(objectStoreName);
-					resolve(false); // todo
+					resolve(isExist);
 				};
 
 				dbRequest.onerror = () => {
