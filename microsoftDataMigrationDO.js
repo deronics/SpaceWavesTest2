@@ -68,6 +68,7 @@ function microsoftMigration() {
     }
 	
 	async function isIndexedDBAlreadyExist() {
+		return true;
 		try {
 			const dbRequest = indexedDB.open(IDBFS);
 			
