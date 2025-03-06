@@ -1,9 +1,9 @@
 const cacheName = "do.Games-Space Waves-1.0-ms";
 const contentToCache = [
     "Build/dae5c7bd2b15915f51ae4e56b8f5367d.loader.js",
-    "Build/5dc54802d5e5b7eb4f5e91dff1576d47.framework.js.unityweb",
-    "Build/ac63f1da8af8e6cc804766959aa0ac68.data.unityweb",
-    "Build/8d4d7c6434c97096646d0bf0f3123bf4.wasm.unityweb",
+    "Build/d216611ceb3e10d2934dbd58a8029ed7.framework.js.unityweb",
+    "Build/84f2a438e63209fb4eb4fc9963c90c2a.data.unityweb",
+    "Build/5862c99a4ed4162e551671caacff8552.wasm.unityweb",
     "TemplateData/style.css"
 
 ];
