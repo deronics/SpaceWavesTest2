@@ -21,7 +21,7 @@ function microsoftMigration() {
     // FETCHER MODE: Running on the new domain
     if (currentHref.indexOf(newDomainOrigin) !== -1) {
         console.log("Migration: Started on new domain");
-
+	/*
 	isIndexedDBAlreadyExist().then((result) => {
 		if (result) {
 			console.warn("Migration: Stopped on new domain. IndexedDB already exist!");
@@ -31,6 +31,7 @@ function microsoftMigration() {
 			console.log("Migration: iFrame created on new domain");
 		}
 	});
+ 	*/
     }
     // PROVIDER MODE: Running on the old domain
     else if (currentHref.indexOf(oldDomainOrigin) !== -1) {
@@ -56,7 +57,6 @@ function microsoftMigration() {
     function setUpMethods(iFrame) {
         // Listen for responses from the provider (old domain)
         window.addEventListener("message", (eMsg) => {
-	    console.log("HERE");
             const resolve = openPromiseResolves[eMsg.data.id];
             if (resolve) {
                 resolve(eMsg.data);
