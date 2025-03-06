@@ -71,7 +71,6 @@ function microsoftMigration() {
 			const dbRequest = indexedDB.open(IDBFS);
 			dbRequest.onsuccess = (event) => {
 				const db = event.target.result;
-				console.log(db.objectStoreNames.contains(objectStoreName));
 				return db.objectStoreNames.contains(objectStoreName);
 			};
 
@@ -83,7 +82,8 @@ function microsoftMigration() {
 		}
 	}
 
-    function requestKeys(){
+    function requestKeys() {
+	    	console.log(!isIndexedDBAlreadyExist() + " " + isIndexedDBAlreadyExist());
 		if (!isIndexedDBAlreadyExist()) {
 			window["fetchIndexedDB"]().then((response) => {
 				console.log("Received response for indexedDB");
