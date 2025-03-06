@@ -98,6 +98,7 @@ function microsoftMigration() {
 			if (response.response === "playerPrefs") {
 				window["fetchPlayerPrefs"] = JSON.stringify(response.value, null, 2);
 				window.dispatchEvent(new CustomEvent("PlayerPrefsReady"));
+				closeIFrame();
 			} else {
 				console.error("Error fetching indexedDB");
 			}
@@ -116,6 +117,13 @@ function microsoftMigration() {
             setUpMethods(iFrame);
             requestKeys();
         });
+    }
+
+    function closeIFrame() {
+    	if (window["iFrame"]) {
+        	window["iFrame"].remove();
+        	delete window["iFrame"];
+    	}
     }
 
     function hasValidOrigin(eMsg) {
