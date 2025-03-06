@@ -2,6 +2,8 @@ const openPromiseResolves = {};
 let nextId = 0;
 const oldDomain = "https://deronics.github.io/SpaceWavesTest/";
 const newDomain = "https://deronics.github.io/SpaceWavesTest2/";
+const oldDomainOrigin = "SpaceWavesTest";
+const newDomainOrigin = "SpaceWavesTest2";
 const IDBFS = "/idbfs";
 const objectStoreName = 'FILE_DATA';
 
@@ -17,7 +19,7 @@ function microsoftMigration() {
     ];
 
     // FETCHER MODE: Running on the new domain
-    if (currentHref.indexOf("SpaceWavesTest2") !== -1) {
+    if (currentHref.indexOf(newDomainOrigin) !== -1) {
         console.log("Migration: Started on new domain");
 
         // Expose functions globally so your game can request data
@@ -25,24 +27,24 @@ function microsoftMigration() {
         console.log("Migration: iFrame created on new domain");
     }
     // PROVIDER MODE: Running on the old domain
-    else if (currentHref.indexOf("SpaceWavesTest") !== -1) {
+    else if (currentHref.indexOf(oldDomainOrigin) !== -1) {
         console.log("Migration: Started on old domain");
 
         // Listen for migration requests and respond
         window.addEventListener("message", (eMsg) => {
-            if (!hasValidOrigin(eMsg)) {
-                console.warn("Invalid origin:", eMsg.origin);
-                return;
-            }
-	    getResponse(eMsg).then((result) => {
-            	if (result)
-			eMsg.source.postMessage(result, eMsg.origin);
-		else
-			console.warn("Error getResponse result is NULL!");
-	    }).catch((error) => {
-		console.warn("Error getResponse: ", error);
-	    });
-        });
+			if (!hasValidOrigin(eMsg)) {
+			    console.warn("Invalid origin:", eMsg.origin);
+			    return;
+			}
+			getResponse(eMsg).then((result) => {
+				if (result)
+					eMsg.source.postMessage(result, eMsg.origin);
+				else
+					console.warn("Error getResponse result is NULL!");
+			}).catch((error) => {
+				console.warn("Error getResponse: ", error);
+			});
+		});
     }
 
     function setUpMethods(iFrame) {
@@ -50,7 +52,6 @@ function microsoftMigration() {
         window.addEventListener("message", (eMsg) => {
             const resolve = openPromiseResolves[eMsg.data.id];
             if (resolve) {
-	        console.log(JSON.stringify(eMsg.data.value, null, 2));
                 resolve(eMsg.data);
                 delete openPromiseResolves[eMsg.data.id];
             }
@@ -88,7 +89,6 @@ function microsoftMigration() {
 
     function requestKeys() {
 		isIndexedDBAlreadyExist().then((result) => {
-			console.log(result + " " + !result);
 			if (result) {
 				console.error("Error indexedDB already exist");
 			} else {
@@ -119,36 +119,34 @@ function microsoftMigration() {
     }
 
     function hasValidOrigin(eMsg) {
-        // For production, replace the following with a proper check.
         return currentOrigin.indexOf(eMsg.origin) !== -1;
     }
 	
 	async function getResponse(eMsg) {
-    const data = eMsg.data;
-    console.log("Migration: fetchIndexedDB on old domain");
-	
-	try {
-		const items = await getPlayerPrefsUnity();
-		return {
-            response: "playerPrefs",
-            value: items,
-            id: data.id ?? -1
-        };
-	} catch (error) {
-		console.warn("Get data error!: ", error);
-		return {
-            response: "error",
-            value: null,
-            id: data.id ?? -1
-        };
+		const data = eMsg.data;
+		console.log("Migration: fetchIndexedDB on old domain");
+		
+		try {
+			const items = await getPlayerPrefsUnity();
+			return {
+				response: "playerPrefs",
+				value: items,
+				id: data.id ?? -1
+			};
+		} catch (error) {
+			console.warn("Get data error!: ", error);
+			return {
+				response: "error",
+				value: null,
+				id: data.id ?? -1
+			};
+		}
 	}
-}
 
 
 function getPlayerPrefsUnity() {
 	return new Promise((resolve, reject) => {
 		getPlayerPrefsUnityIndexedDB().then((result) => {
-			console.log(result.items);
 			const items = result.items.map(({
 				key,
 				value
