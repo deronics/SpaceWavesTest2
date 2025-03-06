@@ -24,8 +24,13 @@
     <script src="./microsoftDataMigrationDO.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        console.log("Начало миграции данных...");
-        microsoftMigration(); // Запуск миграции
+        //console.log("Начало миграции данных...");
+        //microsoftMigration(); // Запуск миграции
+	      
+	window.onload = () => {
+          console.log("Начало миграции данных...");
+          microsoftMigration(); // Запуск миграции
+        };
       });
     </script>
 	  
