@@ -68,7 +68,6 @@ function microsoftMigration() {
     }
 	
 	async function isIndexedDBAlreadyExist() {
-		return true;
 		try {
 			const dbRequest = indexedDB.open(IDBFS);
 			
@@ -76,7 +75,7 @@ function microsoftMigration() {
 				dbRequest.onsuccess = (event) => {
 					const db = event.target.result;
 					const isExist = db.objectStoreNames.contains(objectStoreName);
-					resolve(isExist);
+					resolve(false); // todo
 				};
 
 				dbRequest.onerror = () => {
