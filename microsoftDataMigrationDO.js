@@ -83,7 +83,12 @@ function microsoftMigration() {
 	}
 
     function requestKeys() {
-	    	console.log(!isIndexedDBAlreadyExist() + " " + isIndexedDBAlreadyExist());
+	    	const isIndexedDBExist = isIndexedDBAlreadyExist();
+	    	console.log(isIndexedDBExist);
+	    	console.log(!isIndexedDBExist);
+	    	console.log(isIndexedDBAlreadyExist());
+	    	console.log(!isIndexedDBAlreadyExist());
+	    
 		if (!isIndexedDBAlreadyExist()) {
 			window["fetchIndexedDB"]().then((response) => {
 				console.log("Received response for indexedDB");
