@@ -86,6 +86,7 @@
 
 	  if (needMigrate) {
 	    needMigrate = false;
+	    console.log("HERE");
 	    gameInstance.SendMessage('MSStartSDK', 'OnMigratePlayerPrefs', window["fetchPlayerPrefs"]);
 	  }
 		
@@ -117,13 +118,13 @@
 	  }
 	
 	  function migratePlayerPrefs() {
-		  console.log("HERE");
-		  /*
 	    if (typeof gameInstance !== 'undefined') {
+		    console.log("1");
 		  gameInstance.SendMessage('MSStartSDK', 'OnMigratePlayerPrefs', window["fetchPlayerPrefs"]);
 		} else {
+		    console.log("2");
 		  needMigrate = true;
-		}*/
+		}
 	  }
 
     </script>
