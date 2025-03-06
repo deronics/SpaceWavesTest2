@@ -27,6 +27,9 @@
         console.log("Начало миграции данных...");
         microsoftMigration(); // Запуск миграции
       });
+      window.addEventListener("PlayerPrefsReady", () => {
+        console.log(window["fetchPlayerPrefs"]);
+      });
     </script>
 	  
     <!--
