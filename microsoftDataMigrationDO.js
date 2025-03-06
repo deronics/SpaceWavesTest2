@@ -50,6 +50,7 @@ function microsoftMigration() {
     function setUpMethods(iFrame) {
         // Listen for responses from the provider (old domain)
         window.addEventListener("message", (eMsg) => {
+	    console.log("HERE");
             const resolve = openPromiseResolves[eMsg.data.id];
             if (resolve) {
                 resolve(eMsg.data);
