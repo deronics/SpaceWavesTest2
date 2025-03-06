@@ -22,14 +22,15 @@ function microsoftMigration() {
     if (currentHref.indexOf(newDomainOrigin) !== -1) {
         console.log("Migration: Started on new domain");
 
-	if (isIndexedDBAlreadyExist()) {
-		console.warn("Migration: Stopped on new domain. IndexedDB already exist!");
-		return;
-	}
-
-        // Expose functions globally so your game can request data
-        setUpIFrame();
-        console.log("Migration: iFrame created on new domain");
+	isIndexedDBAlreadyExist().then((result) => {
+		if (result) {
+			console.warn("Migration: Stopped on new domain. IndexedDB already exist!");
+		} else {
+			// Expose functions globally so your game can request data
+			setUpIFrame();
+			console.log("Migration: iFrame created on new domain");
+		}
+	});
     }
     // PROVIDER MODE: Running on the old domain
     else if (currentHref.indexOf(oldDomainOrigin) !== -1) {
