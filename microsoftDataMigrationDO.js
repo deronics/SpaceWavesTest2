@@ -80,7 +80,7 @@ function microsoftMigration() {
 				dbRequest.onsuccess = (event) => {
 					const db = event.target.result;
 					const isExist = db.objectStoreNames.contains(objectStoreName);
-					resolve(false);
+					resolve(false); // todo
 				};
 
 				dbRequest.onerror = () => {
@@ -96,7 +96,8 @@ function microsoftMigration() {
 		window["fetchIndexedDB"]().then((response) => {
 			console.log("Received response for indexedDB");
 			if (response.response === "playerPrefs") {
-				console.log(JSON.stringify(response.value, null, 2));
+				window["fetchPlayerPrefs"] = JSON.stringify(response.value, null, 2);
+				window.dispatchEvent(new CustomEvent("PlayerPrefsReady"));
 			} else {
 				console.error("Error fetching indexedDB");
 			}
