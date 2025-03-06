@@ -30,12 +30,11 @@ function microsoftMigration() {
 
         // Listen for migration requests and respond
         window.addEventListener("message", (eMsg) => {
-            //if (!hasValidOrigin(eMsg)) {
-            //    console.warn("Invalid origin:", eMsg.origin);
-            //    return;
-            //}
+            if (!hasValidOrigin(eMsg)) {
+                console.warn("Invalid origin:", eMsg.origin);
+                return;
+            }
 	    getResponse(eMsg).then((result) => {
-		console.log(eMsg.origin);
             	if (result)
 			eMsg.source.postMessage(result, eMsg.origin);
 		else
