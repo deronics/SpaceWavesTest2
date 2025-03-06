@@ -47,6 +47,7 @@
     -->
 	  
     <script>
+	  const needMigrate = false;
 	  var gameInstance;
 
       const buildUrl = "Build";
@@ -82,6 +83,11 @@
 		  console.log("<do.G> Unity inited");
           gameInstance = unityInstance;
           loadingCover.style.display = "none";
+
+	  if (needMigrate) {
+	    needMigrate = false;
+	    gameInstance.SendMessage('MSStartSDK', 'OnMigratePlayerPrefs', window["fetchPlayerPrefs"]);
+	  }
 		
         }).catch((message) => {
           alert(message);
@@ -111,7 +117,11 @@
 	  }
 	
 	  function migratePlayerPrefs() {
-	    console.log(gameInstance);
+	    if (typeof gameInstance !== 'undefined') {
+		  gameInstance.SendMessage('MSStartSDK', 'OnMigratePlayerPrefs', window["fetchPlayerPrefs"]);
+		} else {
+		  needMigrate = true;
+		}
 	  }
 
     </script>
