@@ -34,10 +34,14 @@ function microsoftMigration() {
             //    console.warn("Invalid origin:", eMsg.origin);
             //    return;
             //}
-            const response = getResponse(eMsg);
-            if (response) {
-                eMsg.source.postMessage(response, eMsg.origin);
-            }
+	    getResponse(eMsg).then((result) => {
+            	if (result)
+			eMsg.source.postMessage(result, eMsg.origin);
+		else
+			console.warn("Error getResponse result is NULL!");
+	    }).catch((error) => {
+		console.warn("Error getResponse: ", error);
+	    });
         });
     }
 
@@ -46,6 +50,7 @@ function microsoftMigration() {
         window.addEventListener("message", (eMsg) => {
             const resolve = openPromiseResolves[eMsg.data.id];
             if (resolve) {
+	        console.log(JSON.stringify(eMsg.data.value, null, 2));
                 resolve(eMsg.data);
                 delete openPromiseResolves[eMsg.data.id];
             }
@@ -111,31 +116,51 @@ function microsoftMigration() {
         return currentOrigin.indexOf("cdn.start.gg") !== -1;
     }
 	
-	function getResponse(eMsg) {
-		const data = eMsg.data;
-		console.log("Migration: fetchIndexedDB on old domain");
-		const items = getPlayerPrefsUnity();
-		if (items === null) {
-			return { response: "error", value: null, id: data.id ?? -1 };
-		} else {
-			return { response: "playerPrefs", value: items, id: data.id ?? -1 };
-		}
+	async function getResponse(eMsg) {
+    const data = eMsg.data;
+    console.log("Migration: fetchIndexedDB on old domain");
+	
+	try {
+		const items = await getPlayerPrefsUnity();
+		return {
+            response: "playerPrefs",
+            value: items,
+            id: data.id ?? -1
+        };
+	} catch (error) {
+		console.warn("Get data error!: ", error);
+		return {
+            response: "error",
+            value: null,
+            id: data.id ?? -1
+        };
 	}
-	
-	
-	function getPlayerPrefsUnity() {
+}
+
+
+function getPlayerPrefsUnity() {
+	return new Promise((resolve, reject) => {
 		getPlayerPrefsUnityIndexedDB().then((result) => {
-			const items = result.items.map(({ key, value }) => ({ [key]: value }));
-			
+			console.log(result.items);
+			const items = result.items.map(({
+				key,
+				value
+			}) => ({
+				[key]: value
+			}));
+
 			if (!items.length)
-				return null;
-			
-			return items;
+			{
+				reject("PlayerPrefsDB is empty!");
+				return;
+			}
+
+			resolve(items);
 		}).catch((error) => {
-			console.warn("Get data error!: ", error);
-			return null;
+			reject(error);
 		});
-	}
+	});
+}
 	
 	function getPlayerPrefsUnityIndexedDB() {
 		return new Promise((resolve, reject) => {
