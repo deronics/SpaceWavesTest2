@@ -54,9 +54,9 @@
       const buildUrl = "Build";
       const loaderUrl = buildUrl + "/dae5c7bd2b15915f51ae4e56b8f5367d.loader.js";
       const config = {
-        dataUrl: buildUrl + "/33181ac9c6b5e9231229e5ee92a26c0f.data.unityweb",
-        frameworkUrl: buildUrl + "/d216611ceb3e10d2934dbd58a8029ed7.framework.js.unityweb",
-        codeUrl: buildUrl + "/d8d5a6b0a903c8ed3da2920fb04ddc0d.wasm.unityweb",
+        dataUrl: buildUrl + "/568ea6b3af616bd57f419c508c933303.data.unityweb",
+        frameworkUrl: buildUrl + "/c699bc4c24abfbdb4c8b3e15b0af7d3f.framework.js.unityweb",
+        codeUrl: buildUrl + "/7fb5141de5923189bc1dc5f94eb619f2.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "do.Games",
         productName: "Space Waves",
@@ -87,7 +87,6 @@
 
 	  if (needMigrate) {
 	    needMigrate = false;
-	    console.log("HERE");
 	    gameInstance.SendMessage('MSStartSDK', 'OnMigratePlayerPrefs', window["fetchPlayerPrefs"]);
 	  }
 		
@@ -127,6 +126,12 @@
 		  needMigrate = true;
 		}
 	  }
+
+	document.addEventListener("keydown", function(event) {
+	  if (event.key === "f" || event.key === "F") {
+	    gameInstance.SendMessage('MSStartSDK', 'ResetUserData');
+	  }
+	});
 
     </script>
   </body>
