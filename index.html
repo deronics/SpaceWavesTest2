@@ -51,6 +51,7 @@
       const script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
+	console.log(window.devicePixelRatio + " " + window.screen.height * window.devicePixelRatio + " " + window.screen.width * window.devicePixelRatio);
         createUnityInstance(canvas, config, (progress) => {
           spinner.style.display = "none";
           progressBarEmpty.style.display = "";
