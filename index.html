@@ -44,9 +44,7 @@
       const progressBarFull = document.querySelector("#unity-progress-bar-full");
       const spinner = document.querySelector('.spinner');
 
-      alert(config.devicePixelRatio);
       config.devicePixelRatio = computeDevicePixelRatio();
-      alert(config.devicePixelRatio);
 	  
       loadingCover.style.display = "";
 
@@ -73,7 +71,7 @@
 	  }
       
       function computeDevicePixelRatio() {
-        const maxRenderHeight = 720;
+        const maxRenderHeight = 360;
         const screenHeight = window.screen.height;
         const nativeRatio = window.devicePixelRatio;
 
