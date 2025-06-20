@@ -33,8 +33,7 @@
         streamingAssetsUrl: "StreamingAssets",
         companyName: "do.Games",
         productName: "Space Waves",
-        productVersion: "1.1.4-preview",
-	devicePixelRatio: computeDevicePixelRatio()
+        productVersion: "1.1.4-preview"
 	//matchWebGLToCanvasSize: "false"
       };
 
@@ -44,6 +43,10 @@
       const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
       const progressBarFull = document.querySelector("#unity-progress-bar-full");
       const spinner = document.querySelector('.spinner');
+
+      console.log(config.devicePixelRatio);
+      config.devicePixelRatio = computeDevicePixelRatio();
+      console.log(config.devicePixelRatio);
 	  
       loadingCover.style.display = "";
 
