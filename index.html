@@ -33,8 +33,9 @@
         streamingAssetsUrl: "StreamingAssets",
         companyName: "do.Games",
         productName: "Space Waves",
-        productVersion: "1.1.4-preview"
-		//matchWebGLToCanvasSize: "false"
+        productVersion: "1.1.4-preview",
+	devicePixelRatio: computeDevicePixelRatio()
+	//matchWebGLToCanvasSize: "false"
       };
 
       const container = document.querySelector("#unity-container");
@@ -67,6 +68,21 @@
 	  function setFullscreen() {
 	    gameInstance.SetFullscreen(1);
 	  }
+      
+      function computeDevicePixelRatio() {
+        const maxRenderHeight = 720;
+        const screenHeight = window.screen.height;
+        const nativeRatio = window.devicePixelRatio;
+
+        if (/Macintosh|iPhone|iPad|iPod/.test(navigator.userAgent)) {
+          if (screenHeight > maxRenderHeight) {
+            const scale = maxRenderHeight / screenHeight;
+            return nativeRatio * scale;
+          }
+        }
+
+        return nativeRatio;
+      }
     </script>
     <script>
       (function () {
